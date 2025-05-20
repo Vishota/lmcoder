@@ -1,0 +1,15 @@
+🧩 Breaking project into subtasks...
+❌ No project description provided.
+🧩 Breaking project into subtasks...
+🧩 Breaking project into subtasks...
+🧠 Prompt for subtasks: You are a project decomposition assistant. Given the following project description, break it down into clear, separate subtasks. For each subtask, specify a name, a detailed description of what needs to be done, and a TypeScript function signature (interface) that should be implemented. Output the result as a JSON array of tasks, where each task has 'name', 'description', and 'signature'. Do not include any additional explanation.
+
+Project Description:
+123
+
+
+Create a simple social network. Requirements: - authorization - subscription - feed - posting - reactions - users rating - tags for posts etc. Use typescript, node.js, vue. Check project before finishing🧩 Breaking project into subtasks...
+🧠 Prompt for subtasks: You are a project decomposition assistant. Given the following project description, break it down into clear, separate subtasks. For each subtask, specify a name, a detailed description of what needs to be done, and a TypeScript function signature (interface) that should be implemented. Output the result as a JSON array of tasks, where each task has 'name', 'description', and 'signature'. Do not include any additional explanation.
+
+Project Description:
+Create a simple social network. Requirements: - authorization - subscription - feed - posting - reactions - users rating - tags for posts etc. Use typescript, node.js, vue. Check project before finishing

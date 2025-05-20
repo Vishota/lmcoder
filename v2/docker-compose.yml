@@ -1,0 +1,9 @@
+version: "3"
+services:
+  lmcoder:
+    build: .
+    network_mode: host
+    volumes:
+      - ./vols/workspace:/workspace
+    env_file:
+      - .env

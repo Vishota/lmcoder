@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@lmstudio/sdk": "^1.1.1",
+    "@types/node": "^22.15.20"
+  },
+  "scripts": {
+    "prod": "npx ts-node src/main"
+  }
+}

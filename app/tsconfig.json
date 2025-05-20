@@ -1,0 +1,33 @@
+{
+  // Является корнем проекта
+  "compilerOptions": {
+    // Целевая платформа: современные возможности ES2020+
+    "target": "ES2020",                                               
+    // Поддержка как ESM, так и CommonJS в Node.js
+    "module": "NodeNext",                                             
+    // Автоматический выбор алгоритма поиска модулей под NodeNext
+    "moduleResolution": "NodeNext",                                   
+    // Путь к исходникам
+    "rootDir": "./src",                                               
+    // Путь для выходных файлов
+    "outDir": "./dist",                                               
+    // Генерация source maps для отладки
+    "sourceMap": true,                                                
+    // Включить строгий режим (все проверки strict семейства) :contentReference[oaicite:0]{index=0}
+    "strict": true,                                                   
+    // Разрешить импорт CommonJS модулей как default-экспортов :contentReference[oaicite:1]{index=1}
+    "esModuleInterop": true,                                          
+    // Требовать единообразия в регистре имён файлов
+    "forceConsistentCasingInFileNames": true,                         
+    // Пропустить проверку деклараций в node_modules для ускорения компиляции
+    "skipLibCheck": true,                                             
+    // Позволяет импортировать JSON-файлы
+    "resolveJsonModule": true,                                        
+    // Инкрементальная компиляция для ускорения последующих сборок
+    "incremental": true                                               
+  },
+  // Включаем в компиляцию только папку src
+  "include": ["src"],                                                  
+  // Исключаем модули и папку сборки
+  "exclude": ["node_modules", "dist"]                                   
+}
