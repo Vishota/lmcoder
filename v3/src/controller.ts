@@ -6,7 +6,41 @@ import { loadManifest, saveManifest, Task, Manifest } from './manifest.js';
 import { generateSubtasks, generateTest, generateCode } from './generator.js';
 import { logTask, logTest, logGenerate, logSuccess, logError, logRetry, logLLM } from './logger.js';
 
+process.chdir('/workspace');
+
 dotenv.config();
+
+// Новый вариант:
+function parsePackagesFromText(text: string): string[] {
+  // Ищем все директивы // @>npm i package@version
+  const lines = text.split(/\r?\n/);
+  const pkgs: string[] = [];
+  for (const line of lines) {
+    const m = line.match(/\/\/\s*@>npm i\s+(.+)/i);
+    if (m) {
+      // разделяем пакеты через пробел
+      m[1].split(/\s+/).forEach(pkg => {
+        const trimmed = pkg.trim();
+        if (trimmed) pkgs.push(trimmed);
+      });
+    }
+  }
+  return pkgs;
+}
+
+
+// Устанавливаем пакеты через npm install
+function installPackages(pkgs: string[]): boolean {
+  if (pkgs.length === 0) return true;
+  logGenerate(`Installing packages: ${pkgs.join(', ')}`);
+  const result = spawnSync('npm', ['install', ...pkgs], { encoding: 'utf-8' });
+  if (result.status !== 0) {
+    logError(`npm install failed: ${result.stderr || result.stdout}`);
+    return false;
+  }
+  logSuccess('Dependencies installed');
+  return true;
+}
 
 async function main() {
   let manifest: Manifest;
@@ -16,6 +50,10 @@ async function main() {
     logError('Failed to load manifest: ' + err.message);
     return;
   }
+
+  // Initial npm install to ensure package.json deps
+  logTask('Running initial npm install');
+  installPackages([]);
 
   // Initialize tasks if manifest is empty
   if (!manifest.tasks || manifest.tasks.length === 0) {
@@ -49,9 +87,8 @@ async function main() {
 
   // Iterate through tasks
   for (const task of manifest.tasks) {
-    if (task.status === 'success') {
-      continue;
-    }
+    if (task.status === 'success') continue;
+
     logTask(`Starting task ${task.id}: ${task.name}`);
     // Generate initial test if not exist
     if (!task.test) {
@@ -68,8 +105,10 @@ async function main() {
         break;
       }
     }
+
     let success = false;
     let testRegenerated = false;
+
     // Code generation loop
     while (!success) {
       logGenerate(`Generating code for task ${task.name} (attempt ${task.attempts.code + 1})`);
@@ -83,6 +122,16 @@ async function main() {
       } catch (err:any) {
         logError(`Code generation failed for task ${task.name}: ${err.message}`);
       }
+
+      // Install any declared packages from test or code
+      const testText = task.test || '';
+      const codeText = task.code || '';
+      const pkgs = Array.from(new Set([...parsePackagesFromText(testText), ...parsePackagesFromText(codeText)]));
+      if (!installPackages(pkgs)) {
+        logError('Dependency installation failed, stopping.');
+        return;
+      }
+
       // Run the test
       logTest(`Running test for task ${task.name}`);
       const result = spawnSync('npx', ['ts-node', `task${task.id}.test.ts`], { encoding: 'utf-8' });
@@ -90,37 +139,34 @@ async function main() {
         logSuccess(`Test passed for task ${task.name}`);
         task.status = 'success';
         success = true;
-        break;
       } else {
         logError(`Test failed for task ${task.name}`);
         logError(result.stderr || result.stdout);
         if (task.attempts.code < 10) {
           logRetry(`Retrying code generation for task ${task.name}`);
           continue;
-        } else {
-          if (!testRegenerated) {
-            logRetry(`Regenerating test for task ${task.name}`);
-            try {
-              const newTestCode = await generateTest({ name: task.name, signature: task.signature, description: task.description, id: task.id });
-              task.test = newTestCode;
-              task.attempts.test++;
-              const testPath = path.join(process.cwd(), `task${task.id}.test.ts`);
-              fs.writeFileSync(testPath, newTestCode, 'utf-8');
-              logSuccess(`Test regenerated for task ${task.name}`);
-            } catch (err:any) {
-              logError(`Test regeneration failed for task ${task.name}: ${err.message}`);
-            }
-            task.attempts.code = 0;
-            testRegenerated = true;
-            continue;
-          } else {
-            logError(`Task ${task.name} failed after multiple attempts.`);
-            task.status = 'failed';
-            break;
+        } else if (!testRegenerated) {
+          logRetry(`Regenerating test for task ${task.name}`);
+          try {
+            const newTest = await generateTest({ name: task.name, signature: task.signature, description: task.description, id: task.id });
+            task.test = newTest;
+            task.attempts.test++;
+            fs.writeFileSync(path.join(process.cwd(), `task${task.id}.test.ts`), newTest, 'utf-8');
+            logSuccess(`Test regenerated for task ${task.name}`);
+          } catch (e:any) {
+            logError(`Test regeneration failed for task ${task.name}: ${e.message}`);
           }
+          task.attempts.code = 0;
+          testRegenerated = true;
+          continue;
+        } else {
+          logError(`Task ${task.name} failed after multiple attempts.`);
+          task.status = 'failed';
+          break;
         }
       }
     }
+
     saveManifest(manifest);
     if (!success) {
       logError(`Stopping process due to failure in task ${task.name}.`);
@@ -128,7 +174,7 @@ async function main() {
     }
   }
 
-  // After all tasks
+  // Final integration
   if (manifest.tasks.every(t => t.status === 'success')) {
     logTask('Building the project');
     const build = spawnSync('npx', ['tsc'], { encoding: 'utf-8' });

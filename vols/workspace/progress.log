@@ -1,0 +1,491 @@
+🧩 Running initial npm install
+🧩 Breaking project into subtasks...
+🧠 Prompt for subtasks: You are a project decomposition assistant. Given the following project description, break it down into clear, separate subtasks. For each subtask, specify a name, a detailed description of what needs to be done, and a TypeScript function signature (interface) that should be implemented. Output the result as a JSON array of tasks, where each task has 'name', 'description', and 'signature'. If any subtask requires external dependencies, note them using the syntax "// @>npm i package@version" at the top of your response. Do not include any additional explanation.
+
+Project Description:
+Create a simple social network. Requirements: - authorization - subscription - feed - posting - reactions - users rating - tags for posts etc. Use typescript, node.js, vue. Check project before finishing
+🧩 Running initial npm install
+🧩 Breaking project into subtasks...
+🧠 Prompt for subtasks: You are a project decomposition assistant. Given the following project description, break it down into clear, separate subtasks. For each subtask, specify a name, a detailed description of what needs to be done, and a TypeScript function signature (interface) that should be implemented. Output the result as a JSON array of tasks, where each task has 'name', 'description', and 'signature'. If any subtask requires external dependencies, note them using the syntax "// @>npm i package@version" at the top of your response. Do not include any additional explanation.
+
+Project Description:
+Create a simple social network. Requirements: - authorization - subscription - feed - posting - reactions - users rating - tags for posts etc. Use typescript, node.js, vue. Check project before finishing
+🧠 Response for subtasks: ```json
+[
+  {
+    "name": "Authorization",
+    "description": "Implement user registration and login functionality.",
+    "signature": "interface AuthService { register(user: User): Promise<User>; login(credentials: Credentials): Promise<User> }"
+  },
+  {
+    "name": "Subscription",
+    "description": "Enable users to subscribe to other users or tags.",
+    "signature": "interface SubscriptionService { subscribeToUser(userId: string, subscriberId: string): void; unsubscribeFromUser(userId: string, subscriberId: string): void; }"
+  },
+  {
+    "name": "Feed",
+    "description": "Develop a feed system that shows posts from subscribed users and tags.",
+    "signature": "interface FeedService { getFeed(userId: string): Promise<Post[]> }"
+  },
+  {
+    "name": "Posting",
+    "description": "Implement functionality for creating, editing, and deleting posts.",
+    "signature": "interface PostService { createPost(post: Post): Promise<Post>; editPost(postId: string, post: Post): Promise<Post>; deletePost(postId: string): void; }"
+  },
+  {
+    "name": "Reactions",
+    "description": "Enable users to react to posts with like, dislike, or comment.",
+    "signature": "interface ReactionService { addReaction(userId: string, postId: string, reactionType: 'like' | 'dislike' | 'comment', content?: string): void; removeReaction(userId: string, postId: string, reactionType: 'like' | 'dislike'): void; }"
+  },
+  {
+    "name": "Users Rating",
+    "description": "Create a system for rating users based on their posts and reactions.",
+    "signature": "interface UserRatingService { getUserRating(userId: string): number; updateUserRating(userId: string): void; }"
+  },
+  {
+    "name": "Tags for Posts",
+    "description": "Implement functionality for tagging posts with relevant keywords.",
+    "signature": "interface TagService { addTagToPost(postId: string, tag: string): void; removeTagFromPost(postId: string, tag: string): void; }"
+  },
+  {
+    "name": "Project Check",
+    "description": "Conduct thorough testing and quality assurance checks before project completion.",
+    "signature": "interface ProjectCheckService { runTests(): Promise<void>; conductQAChecks(): Promise<void> }"
+  }
+]
+```
+🧩 Running initial npm install
+🧩 Breaking project into subtasks...
+🧠 Prompt for subtasks: You are a project decomposition assistant. Given the following project description, break it down into clear, separate subtasks. For each subtask, specify a name, a detailed description of what needs to be done, and a TypeScript function signature (interface) that should be implemented. Output the result as a JSON array of tasks, where each task has 'name', 'description', and 'signature'. If any subtask requires external dependencies, note them using the syntax "// @>npm i package@version" at the top of your response. Do not include any additional explanation.
+
+Project Description:
+Create a simple social network. Requirements: - authorization - subscription - feed - posting - reactions - users rating - tags for posts etc. Use typescript, node.js, vue. Check project before finishing
+🧠 Response for subtasks: [
+  {
+    "name": "Authorization",
+    "description": "Implement a secure user authentication system that includes features like sign up, log in, and password reset.",
+    "signature": "interface IAuthService { signUp(user: User): Promise<void>; logIn(email: string, password: string): Promise<User>; }"
+  },
+  {
+    "name": "Subscription",
+    "description": "Enable users to follow other users and receive updates on their posts.",
+    "signature": "interface ISubscriptionService { subscribe(userId: number, targetUserId: number): Promise<void>; unsubscribe(userId: number, targetUserId: number): Promise<void>; }"
+  },
+  {
+    "name": "Feed",
+    "description": "Implement a feature that displays users' posts in their feed based on whom they follow.",
+    "signature": "interface IFeedService { getUserFeed(userId: number): Promise<Post[]>; }"
+  },
+  {
+    "name": "Posting",
+    "description": "Enable users to create new posts and attach images or videos if needed.",
+    "signature": "interface IPostService { createPost(userId: number, content: string, media?: Media): Promise<void>; }"
+  },
+  {
+    "name": "Reactions",
+    "description": "Implement a feature that allows users to react to posts using emojis or similar reactions.",
+    "signature": "interface IReactionService { addReaction(userId: number, postId: number, reactionType: string): Promise<void>; removeReaction(userId: number, postId: number, reactionType: string): Promise<void>; }"
+  },
+  {
+    "name": "Users Rating",
+    "description": "Implement a feature that calculates and displays the rating of users based on their posts' reactions.",
+    "signature": "interface IUserRatingService { calculateUserRating(userId: number): Promise<number>; }"
+  },
+  {
+    "name": "Tags for Posts",
+    "description": "Enable users to add tags to their posts so that they can be easily discovered by other users.",
+    "signature": "interface ITagService { addPostTag(postId: number, tag: string): Promise<void>; removePostTag(postId: number, tag: string): Promise<void>; }"
+  },
+  {
+    "name": "Project Check",
+    "description": "Thoroughly test the implemented features to ensure that they meet all requirements and function as intended.",
+    "signature": "interface ITestService { runTests(): Promise<void>; }"
+  }
+]
+✅ Subtasks created and saved to manifest.
+🧩 Starting task 1: Authorization
+🧪 Generating test for task Authorization
+🧠 Prompt for test (Authorization): You are a test generation assistant. Given the TypeScript function signature and description for a function, write a set of tests in TypeScript using Node's built-in assert module. The tests should import the function from './task1' and verify its behavior according to the description, including edge cases. If a test case requires external libraries, indicate them using "// @>npm i package@version" at the top. Return ONLY the valid TypeScript test code, with no commentary or markdown formatting. Do not wrap code in markdown fences.
+
+Function signature:
+interface IAuthService { signUp(user: User): Promise<void>; logIn(email: string, password: string): Promise<User>; }
+Function description:
+Implement a secure user authentication system that includes features like sign up, log in, and password reset.
+🧠 Response for test (Authorization): // @>npm i assert@2.0.0
+import * as assert from 'assert';
+import { IAuthService } from './task1';
+
+describe('IAuthService', () => {
+  let authService: IAuthService;
+
+  beforeEach(() => {
+    authService = new IAuthService(); // Assuming a default constructor for IAuthService
+  });
+
+  it('should sign up a user successfully', async () => {
+    const user = { email: 'test@example.com', password: 'password123' };
+    await assert.doesNotReject(authService.signUp(user));
+  });
+
+  it('should throw an error for duplicate sign up attempts with the same email', async () => {
+    const user = { email: 'test@example.com', password: 'password123' };
+    await authService.signUp(user);
+    await assert.rejects(authService.signUp(user), /User already exists/);
+  });
+
+  it('should log in a user successfully with valid credentials', async () => {
+    const user = { email: 'test@example.com', password: 'password123' };
+    await authService.signUp(user);
+    const loggedInUser = await authService.logIn('test@example.com', 'password123');
+    assert.deepStrictEqual(loggedInUser, user);
+  });
+
+  it('should throw an error for log in attempts with invalid email or password', async () => {
+    const user = { email: 'test@example.com', password: 'password123' };
+    await authService.signUp(user);
+    await assert.rejects(authService.logIn('test@example.com', 'wrong_password'), /Invalid credentials/);
+    await assert.rejects(authService.logIn('nonexistent@example.com', 'password123'), /User not found/);
+  });
+});
+✅ Test generated for task Authorization
+⚙️ Generating code for task Authorization (attempt 1)
+🧠 Prompt for code (Authorization): You are a code generation assistant. Write a TypeScript implementation for the following function that matches the given signature and behavior. Ensure the function is exported. If your implementation requires external packages, indicate them using "// @>npm i package@version" at the top. Return ONLY the pure TypeScript code, with no tests, commentary, or markdown formatting.
+
+Function signature:
+interface IAuthService { signUp(user: User): Promise<void>; logIn(email: string, password: string): Promise<User>; }
+Function description:
+Implement a secure user authentication system that includes features like sign up, log in, and password reset.
+🧠 Response for code (Authorization): // @>npm i bcryptjs@2.4.3 jsonwebtoken@8.5.1
+import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
+
+export class AuthService implements IAuthService {
+  private users: User[] = [];
+
+  async signUp(user: User): Promise<void> {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+    this.users.push(user);
+  }
+
+  async logIn(email: string, password: string): Promise<User> {
+    const user = this.users.find((u) => u.email === email);
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new Error('Invalid credentials');
+    }
+    return user;
+  }
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+}
+✅ Code generated for task Authorization (attempt 1)
+⚙️ Installing packages: assert@2.0.0, bcryptjs@2.4.3, jsonwebtoken@8.5.1
+✅ Dependencies installed
+🧪 Running test for task Authorization
+❌ Test failed for task Authorization
+❌ npm warn exec The following package was not found and will be installed: ts-node@10.9.2
+/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+task1.test.ts(3,10): error TS2724: '"./task1"' has no exported member named 'IAuthService'. Did you mean 'AuthService'?
+task1.test.ts(5,1): error TS2593: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(8,3): error TS2304: Cannot find name 'beforeEach'.
+task1.test.ts(12,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(17,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(23,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(30,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+
+    at createTSError (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1617:30)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+    at Object.require.extensions.<computed> [as .ts] (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+  diagnosticCodes: [
+    2724, 2593,
+    2304, 2593,
+    2593, 2593,
+    2593
+  ]
+}
+
+🔁 Retrying code generation for task Authorization
+⚙️ Generating code for task Authorization (attempt 2)
+🧠 Prompt for code (Authorization): You are a code generation assistant. Write a TypeScript implementation for the following function that matches the given signature and behavior. Ensure the function is exported. If your implementation requires external packages, indicate them using "// @>npm i package@version" at the top. Return ONLY the pure TypeScript code, with no tests, commentary, or markdown formatting.
+
+Function signature:
+interface IAuthService { signUp(user: User): Promise<void>; logIn(email: string, password: string): Promise<User>; }
+Function description:
+Implement a secure user authentication system that includes features like sign up, log in, and password reset.
+🧠 Response for code (Authorization): ```typescript
+// @>npm i jsonwebtoken@8.5.1 bcryptjs@2.4.3
+import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcryptjs';
+
+interface User {
+  id: string;
+  email: string;
+  password: string;
+}
+
+export class AuthService implements IAuthService {
+  private users: User[] = [];
+  private secretKey: string = 'secret-key';
+
+  async signUp(user: User): Promise<void> {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    this.users.push({ ...user, password: hashedPassword });
+  }
+
+  async logIn(email: string, password: string): Promise<User | null> {
+    const user = this.users.find((u) => u.email === email);
+    if (!user) return null;
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return null;
+
+    const token = jwt.sign({ id: user.id }, this.secretKey);
+    // Store the token in a secure way (not shown here for simplicity)
+    return { ...user, password: '' }; // Return user without password for security
+  }
+}
+```
+✅ Code generated for task Authorization (attempt 2)
+⚙️ Installing packages: assert@2.0.0, jsonwebtoken@8.5.1, bcryptjs@2.4.3
+✅ Dependencies installed
+🧪 Running test for task Authorization
+❌ Test failed for task Authorization
+❌ /root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+task1.test.ts(3,10): error TS2724: '"./task1"' has no exported member named 'IAuthService'. Did you mean 'AuthService'?
+task1.test.ts(5,1): error TS2593: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(8,3): error TS2304: Cannot find name 'beforeEach'.
+task1.test.ts(12,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(17,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(23,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(30,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+
+    at createTSError (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1617:30)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+    at Object.require.extensions.<computed> [as .ts] (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+  diagnosticCodes: [
+    2724, 2593,
+    2304, 2593,
+    2593, 2593,
+    2593
+  ]
+}
+
+🔁 Retrying code generation for task Authorization
+⚙️ Generating code for task Authorization (attempt 3)
+🧠 Prompt for code (Authorization): You are a code generation assistant. Write a TypeScript implementation for the following function that matches the given signature and behavior. Ensure the function is exported. If your implementation requires external packages, indicate them using "// @>npm i package@version" at the top. Return ONLY the pure TypeScript code, with no tests, commentary, or markdown formatting.
+
+Function signature:
+interface IAuthService { signUp(user: User): Promise<void>; logIn(email: string, password: string): Promise<User>; }
+Function description:
+Implement a secure user authentication system that includes features like sign up, log in, and password reset.
+🧠 Response for code (Authorization): // @>npm i bcrypt@5.0.1 jsonwebtoken@8.5.1
+import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+
+interface User {
+  id: string;
+  email: string;
+  password: string;
+}
+
+export class AuthService implements IAuthService {
+  private users: User[] = [];
+  private secretKey: string = 'your-secret-key';
+
+  async signUp(user: User): Promise<void> {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    this.users.push({ ...user, password: hashedPassword });
+  }
+
+  async logIn(email: string, password: string): Promise<User> {
+    const user = this.users.find((u) => u.email === email);
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new Error('Invalid credentials');
+    }
+    const token = jwt.sign({ userId: user.id }, this.secretKey, { expiresIn: '1h' });
+    return { ...user, password: '', token };
+  }
+}
+✅ Code generated for task Authorization (attempt 3)
+⚙️ Installing packages: assert@2.0.0, bcrypt@5.0.1, jsonwebtoken@8.5.1
+✅ Dependencies installed
+🧪 Running test for task Authorization
+❌ Test failed for task Authorization
+❌ /root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+task1.test.ts(3,10): error TS2724: '"./task1"' has no exported member named 'IAuthService'. Did you mean 'AuthService'?
+task1.test.ts(5,1): error TS2593: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(8,3): error TS2304: Cannot find name 'beforeEach'.
+task1.test.ts(12,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(17,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(23,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(30,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+
+    at createTSError (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1617:30)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+    at Object.require.extensions.<computed> [as .ts] (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+  diagnosticCodes: [
+    2724, 2593,
+    2304, 2593,
+    2593, 2593,
+    2593
+  ]
+}
+
+🔁 Retrying code generation for task Authorization
+⚙️ Generating code for task Authorization (attempt 4)
+🧠 Prompt for code (Authorization): You are a code generation assistant. Write a TypeScript implementation for the following function that matches the given signature and behavior. Ensure the function is exported. If your implementation requires external packages, indicate them using "// @>npm i package@version" at the top. Return ONLY the pure TypeScript code, with no tests, commentary, or markdown formatting.
+
+Function signature:
+interface IAuthService { signUp(user: User): Promise<void>; logIn(email: string, password: string): Promise<User>; }
+Function description:
+Implement a secure user authentication system that includes features like sign up, log in, and password reset.
+🧠 Response for code (Authorization): // @>npm i bcrypt@5.0.1 jsonwebtoken@8.5.1
+import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+
+interface User {
+  email: string;
+  password: string;
+  // Add additional user properties here
+}
+
+export class AuthService implements IAuthService {
+  private users: User[] = [];
+  private readonly secretKey: string = process.env.JWT_SECRET || 'default-secret-key';
+
+  async signUp(user: User): Promise<void> {
+    const existingUser = this.users.find((u) => u.email === user.email);
+    if (existingUser) {
+      throw new Error('Email already in use');
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(user.password, salt);
+    this.users.push({ ...user, password: hashedPassword });
+  }
+
+  async logIn(email: string, password: string): Promise<User> {
+    const user = this.users.find((u) => u.email === email);
+    if (!user) {
+      throw new Error('Invalid credentials');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new Error('Invalid credentials');
+    }
+
+    const token = jwt.sign({ email: user.email }, this.secretKey, { expiresIn: '1h' });
+    // Store the token in a secure place, such as an HTTP-only cookie or local storage
+
+    return user;
+  }
+}
+✅ Code generated for task Authorization (attempt 4)
+⚙️ Installing packages: assert@2.0.0, bcrypt@5.0.1, jsonwebtoken@8.5.1
+✅ Dependencies installed
+🧪 Running test for task Authorization
+❌ Test failed for task Authorization
+❌ /root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+task1.test.ts(3,10): error TS2724: '"./task1"' has no exported member named 'IAuthService'. Did you mean 'AuthService'?
+task1.test.ts(5,1): error TS2593: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(8,3): error TS2304: Cannot find name 'beforeEach'.
+task1.test.ts(12,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(17,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(23,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+task1.test.ts(30,3): error TS2593: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha` and then add 'jest' or 'mocha' to the types field in your tsconfig.
+
+    at createTSError (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1617:30)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+    at Object.require.extensions.<computed> [as .ts] (/root/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {
+  diagnosticCodes: [
+    2724, 2593,
+    2304, 2593,
+    2593, 2593,
+    2593
+  ]
+}
+
+🔁 Retrying code generation for task Authorization
+⚙️ Generating code for task Authorization (attempt 5)
+🧠 Prompt for code (Authorization): You are a code generation assistant. Write a TypeScript implementation for the following function that matches the given signature and behavior. Ensure the function is exported. If your implementation requires external packages, indicate them using "// @>npm i package@version" at the top. Return ONLY the pure TypeScript code, with no tests, commentary, or markdown formatting.
+
+Function signature:
+interface IAuthService { signUp(user: User): Promise<void>; logIn(email: string, password: string): Promise<User>; }
+Function description:
+Implement a secure user authentication system that includes features like sign up, log in, and password reset.
+🧠 Response for code (Authorization): ```typescript
+// @>npm i bcrypt@5.0.1 jsonwebtoken@8.5.1
+import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+
+interface User {
+  id?: string;
+  email: string;
+  password: string;
+}
+
+export class AuthService implements IAuthService {
+  private users: User[] = [];
+  private secretKey = 'your-secret-key'; // Replace with your own secret key
+
+  async signUp(user: User): Promise<void> {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    this.users.push({ ...user, password: hashedPassword });
+  }
+
+  async logIn(email: string, password: string): Promise<User> {
+    const user = this.users.find((u) => u.email === email);
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new Error('Invalid credentials');
+    }
+    const token = jwt.sign({ userId: user.id }, this.secretKey);
+    return { ...user, password: undefined, token };
+  }
+}
+```

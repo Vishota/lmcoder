@@ -1,18 +1,8 @@
 {
-  "name": "workspace",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "@types/express": "^5.0.2",
-    "express": "^5.1.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "assert": "^2.0.0",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1"
   }
 }

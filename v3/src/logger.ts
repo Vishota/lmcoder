@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+process.chdir('/workspace')
+
 const logFilePath = path.join(process.cwd(), 'progress.log');
 const logStream = fs.createWriteStream(logFilePath, { flags: 'a' });
 
