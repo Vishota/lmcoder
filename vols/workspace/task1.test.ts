@@ -1,36 +1,38 @@
-// @>npm i assert@2.0.0
-import * as assert from 'assert';
-import { IAuthService } from './task1';
+// @npm i jsonwebtoken@8.5.1 bcryptjs@2.4.3
+import assert from 'assert';
+import { authenticate } from './task1';
+import * as bcrypt from 'bcryptjs';
 
-describe('IAuthService', () => {
-  let authService: IAuthService;
+describe('authenticate', () => {
+  it('should return a JWT token for valid credentials', async () => {
+    const username = 'testUser';
+    const password = 'password123';
+    await registerUser(username, password); // assuming this function is used to create a user with bcrypt-hashed password in the database
 
-  beforeEach(() => {
-    authService = new IAuthService(); // Assuming a default constructor for IAuthService
+    const token = await authenticate(username, password);
+    assert.ok(token);
   });
 
-  it('should sign up a user successfully', async () => {
-    const user = { email: 'test@example.com', password: 'password123' };
-    await assert.doesNotReject(authService.signUp(user));
+  it('should return null for invalid credentials', async () => {
+    const username = 'testUser';
+    const password = 'password123';
+    await registerUser(username, password); // assuming this function is used to create a user with bcrypt-hashed password in the database
+
+    const token = await authenticate(username, 'wrongPassword');
+    assert.equal(token, null);
   });
 
-  it('should throw an error for duplicate sign up attempts with the same email', async () => {
-    const user = { email: 'test@example.com', password: 'password123' };
-    await authService.signUp(user);
-    await assert.rejects(authService.signUp(user), /User already exists/);
-  });
+  it('should return null for non-existent users', async () => {
+    const username = 'nonexistentUser';
+    const password = 'password123';
 
-  it('should log in a user successfully with valid credentials', async () => {
-    const user = { email: 'test@example.com', password: 'password123' };
-    await authService.signUp(user);
-    const loggedInUser = await authService.logIn('test@example.com', 'password123');
-    assert.deepStrictEqual(loggedInUser, user);
-  });
-
-  it('should throw an error for log in attempts with invalid email or password', async () => {
-    const user = { email: 'test@example.com', password: 'password123' };
-    await authService.signUp(user);
-    await assert.rejects(authService.logIn('test@example.com', 'wrong_password'), /Invalid credentials/);
-    await assert.rejects(authService.logIn('nonexistent@example.com', 'password123'), /User not found/);
+    const token = await authenticate(username, password);
+    assert.equal(token, null);
   });
 });
+
+// assuming this function is used to create a user with bcrypt-hashed password in the database
+async function registerUser(username: string, password: string) {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  // save username and hashedPassword to the database
+}

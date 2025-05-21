@@ -28,7 +28,11 @@ function stripCodeFences(text: string): string {
 
 export async function generateSubtasks(projectDescription: string): Promise<SubtaskInfo[]> {
   await initClient();
-  const prompt = `You are a project decomposition assistant. Given the following project description, break it down into clear, separate subtasks. For each subtask, specify a name, a detailed description of what needs to be done, and a TypeScript function signature (interface) that should be implemented. Output the result as a JSON array of tasks, where each task has 'name', 'description', and 'signature'. If any subtask requires external dependencies, note them using the syntax "// @>npm i package@version" at the top of your response. Do not include any additional explanation.
+  const prompt = `You are a project decomposition assistant. Given the following project description, break it down into concrete, non-generic subtasks. For each subtask, specify:
+  1) a concise unique name,
+  2) a detailed description of what exactly must be implemented,
+  3) a precise TypeScript function signature (no placeholders, fully typed) for the feature, e.g. \`function calculateSum(a: number, b: number): number\`.
+Make sure there are no sample paths like '../path/to', no unimplemented stubs like 'throw "Not implemented"'. If a subtask requires external dependencies, list them at the very top as comments using the syntax "// @>npm i package@version". Return ONLY valid JSON, with fields 'name', 'description', 'signature'. Do not wrap in markdown or include extra explanation.
 
 Project Description:
 ${projectDescription}`;
@@ -38,34 +42,43 @@ ${projectDescription}`;
   try {
     const tasks = JSON.parse(response.content);
     return tasks;
-  } catch (err) {
+  } catch {
     logLLM('Failed to parse subtasks JSON.');
     throw new Error('Invalid subtasks JSON response from LLM');
   }
 }
 
-export async function generateTest(task: { name: string; signature: string; description: string; id: number; }): Promise<string> {
+export async function generateTest(task: { name: string; signature: string; description: string; id: number; errorLog?: string; }): Promise<string> {
   await initClient();
-  const prompt = `You are a test generation assistant. Given the TypeScript function signature and description for a function, write a set of tests in TypeScript using Node's built-in assert module. The tests should import the function from './task${task.id}' and verify its behavior according to the description, including edge cases. If a test case requires external libraries, indicate them using "// @>npm i package@version" at the top. Return ONLY the valid TypeScript test code, with no commentary or markdown formatting. Do not wrap code in markdown fences.
+  const prompt = `You are a test generation assistant. Given the exact TypeScript signature and description, and any previous error logs, produce a complete, executable TypeScript test file. Use Node's built-in assert module or a specified testing framework. Import the function directly: \`import { ${task.signature.match(/function (\w+)/)?.[1]} } from './task${task.id}';\`. Write realistic test cases covering normal and edge conditions. Do NOT use placeholders like '../path/to'. Do NOT include 'throw \"Not implemented\"'. If external packages are needed, declare them at the top with "// @>npm i package@version". Return ONLY TypeScript code without markdown fences or comments beyond imports.
 
 Function signature:
 ${task.signature}
+
 Function description:
-${task.description}`;
+${task.description}
+
+${task.errorLog ? `Previous error log:\n${task.errorLog}` : ''}`.trim();
   logLLM(`Prompt for test (${task.name}): ${prompt}`);
   const response = await model.respond(prompt);
   logLLM(`Response for test (${task.name}): ${response.content}`);
   return stripCodeFences(response.content);
 }
 
-export async function generateCode(task: { name: string; signature: string; description: string; id: number; }): Promise<string> {
+export async function generateCode(task: { name: string; signature: string; description: string; id: number; errorLog?: string; }): Promise<string> {
   await initClient();
-  const prompt = `You are a code generation assistant. Write a TypeScript implementation for the following function that matches the given signature and behavior. Ensure the function is exported. If your implementation requires external packages, indicate them using "// @>npm i package@version" at the top. Return ONLY the pure TypeScript code, with no tests, commentary, or markdown formatting.
+  // Extract function name from signature
+  const fnNameMatch = task.signature.match(/function (\w+)/);
+  const fnName = fnNameMatch ? fnNameMatch[1] : 'fn';
+  const prompt = `You are a code generation assistant. Write a complete, production-ready TypeScript implementation for the function described below, with no stubs or placeholders. The function must match this signature exactly and be properly exported. Do not use sample paths, do not include unimplemented throws. If external dependencies are needed, declare them at the top with "// @>npm i package@version". Return ONLY the raw TypeScript code, no markdown fences or extra commentary.
 
 Function signature:
 ${task.signature}
+
 Function description:
-${task.description}`;
+${task.description}
+
+${task.errorLog ? `Previous error log:\n${task.errorLog}` : ''}`.trim();
   logLLM(`Prompt for code (${task.name}): ${prompt}`);
   const response = await model.respond(prompt);
   logLLM(`Response for code (${task.name}): ${response.content}`);

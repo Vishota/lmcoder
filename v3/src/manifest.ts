@@ -13,6 +13,7 @@ export interface Task {
     code: number;
   };
   status: 'pending' | 'success' | 'failed';
+  errorLog?: string;
 }
 
 export interface Manifest {

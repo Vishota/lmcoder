@@ -1,8 +1,17 @@
 {
   "dependencies": {
+    "@types/bcryptjs": "^3.0.0",
+    "@types/jsonwebtoken": "^8.5.9",
     "assert": "^2.0.0",
-    "bcrypt": "^5.0.1",
+    "bcrypt": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.15.21",
     "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^8.5.1"
+    "chai": "^4.2.0",
+    "dotenv": "^16.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.13.8"
   }
 }
